@@ -1,0 +1,13 @@
+#imgPres{
+    width: 350px;
+}
+
+h1{
+    text-align: center;
+    color: green;
+    font-weight: bold;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: red;
+    font-family:georgia, serif;
+}
