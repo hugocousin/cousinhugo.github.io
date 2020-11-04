@@ -1,48 +1,63 @@
 import turtle
-turtle.tracer(0,0) # accélération du tracé
-turtle.screensize(500,500) # taille fenêtre graphique
+turtle.tracer(0,0)            # accélération du tracé
+turtle.screensize(2000,2000)  # taille fenêtre graphique
 turtle.pu()
-turtle.goto(-0,-200)
+turtle.goto(-500,0)
 turtle.pd()
 
-
 def dessiner(courbe, longueur, angle):
-#""" réalise une représentation graphique d'une courbe donnée par des chaines de caractères """
-for caractere in courbe:
-if caractere == '+': turtle.left(angle)
-elif caractere == '-': turtle.right(angle)
-elif caractere == 'F': turtle.forward(longueur)
+    """ réalise une représentation graphique d'une courbe donnée par des chaines de caractères """
+    for caractere in courbe:
+        if caractere == '+': turtle.left(angle)
+        elif caractere == '-': turtle.right(angle)
+        elif caractere in ['F', 'G']: turtle.forward(longueur)
 
-def dess-A(longueur, angle):
-Sequence_A = 'FF++FF++FF++F+F++F++F+'
-dessiner(Sequence_A,longueur,angle)
 
-def dess-B(longueur, angle):
-Sequence_B = 'F++FF'
-dessiner(Sequence_B,longueur,angle)
+#dessiner('F',50,60 )
 
-def Prebienski(counter,longueur, angle):
-dess-A(longueur,angle)
-for i in range(3):
-if counter>1:
-Prebienski(counter-1,longueur*0.5,angle)
-dess-B(longueur,angle)
-return counter-1
+def reglesierpinski(chaine):
+    nouvelleChaine = ''    # on crée une nouvelle chaine de caractères VIDE
+    for lettre in chaine:  # on épelle la chaine de caractères donnée en paramètres
+        if lettre == 'F':  # si dans l'ancienne chaine, il y a un 'F'
+            nouvelleChaine = nouvelleChaine + 'F-G+F+G-F'  # alors, on écrit F-G+F+G-F dans la nouvelle chaine
+        elif lettre == 'G': 
+            nouvelleChaine = nouvelleChaine + 'GG' #alors, on écrit 'GG' dans la nouvelleChaine 
+        else :
+            nouvelleChaine = nouvelleChaine + lettre  # sinon, on reporte la lettre telle quelle
+    return nouvelleChaine
 
-longueur = 128
-angle = 60
-niter = 5
 
-counter = niter;
+def courbesierpinski(motifInitial, niter):
+    """ 
+        appelle niter fois reglesierpinski pour créer la courbe de sierpinski
+    """
+    courbe = motifInitial # on part du motif initial donné par l'utilisateur en paramètres
+    for i in range(niter):
+        nouveauMotif = reglesierpinski(courbe)  # on trouve le nouveau Motif à partir du motif de départ
+        courbe = nouveauMotif # on dit que le nouveau Motif est maintenant le motif de départ
+    return courbe
 
-if counter >= 0:
-counter = Prebienski(counter, longueur, angle)
 
-turtle.update() # accélération du tracé
+
+#courbe = courbesierpinski('F',3)
+#dessiner(courbe,50, 60)
+
+def flocon(motifInitial, niter):
+    courbe = courbesierpinski(motifInitial, niter)
+    flocon = ''
+    for _ in range(3):
+        flocon += courbe
+        flocon += '--' 
+    return flocon
+
+longueur = 10
+angle = -120
+niter = 6
+dessiner(courbesierpinski('F-F-F', niter), longueur, angle)
+
+
+turtle.update()      # accélération du tracé
 turtle.exitonclick() # permet la fermeture de la fenêtre graphique
-
-
-Envoyé de mon iPhone
 
 
 
